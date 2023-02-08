@@ -1,13 +1,16 @@
-const {readFile} = require ('fs')
+const http = require('http')
+const fs = require('fs')
 
-console.log('started a first task')
-// CHECK FILE PATH!!!!
-readFile('./content/first.txt', 'utf8', (err, result) => {
-  if (err) {
-    console.log(err)
-    return
-  }
-  console.log(result)
-  console.log('completed first task')
+const server = http.createServer()
+
+server.on('request', (req,res)=>{
+  const file = fs.createReadStream('./example/big.txt', 'utf8')
+  file.on('open', (data)=>{
+    file.pipe(res)
+    })
+  file.on('error', (err)=>{
+    console.log(error)
+  })
 })
-console.log('starting next task')
+
+server.listen(5000)
